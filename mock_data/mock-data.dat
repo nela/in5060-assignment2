@@ -1,0 +1,16 @@
+#V1,V2,Age,Medium,Gender,V1BetterQuality
+v0,v1,child,mobile,male,true
+v0,v2,adult,computer,female,true
+v0,v3,child,mobile,female,false
+v0,v4,adult,mobile,male,true
+v0,v5,child,computer,female,false
+v1,v2,child,mobile,female,false
+v1,v3,adult,computer,male,true
+v1,v4,child,computer,female,false
+v1,v5,child,mobile,male,false
+v2,v3,adult,computer,male,true
+v2,v4,child,computer,female,false
+v2,v5,child,mobile,male,false
+v3,v4,adult,computer,male,true
+v3,v5,child,computer,female,false
+v4,v5,child,mobile,female,false
