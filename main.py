@@ -1,7 +1,8 @@
+from typing import List
+
 from messurment import Candidate
 
-
-if __name__ == '__main__':
+def get_candidates():
     candidates = []
     with open("data/log.csv", "r") as inputFile:
         lines = inputFile.readlines()
@@ -26,8 +27,33 @@ if __name__ == '__main__':
                 current_candidate = Candidate(id, gender, license, proficiency, age, user_agent_simple, user_agent_full)
                 candidates.append(current_candidate)
             current_candidate.add_prefer_count(first_variant, second_variant, preferred)
+    return candidates
 
-    print(candidates[0].get_selected_count()["saopaulover-1min-s-yaw0"])
+
+def create_basic_table(candidates: List[Candidate]):
+    anova_dict = {}
+    column_mean = {"saopaulover-1min-s-yaw0": 0, "saopaulover-1min-s-yaw90": 0, "saopaulover-1min-t-yaw0": 0, "saopaulover-1min-t-yaw90": 0, "saopaulover-1min-yaw0": 0, "saopaulover-1min-yaw90": 0}
+    for candidate in candidates:
+        for key, preferred in candidate.get_selected_count().items():
+            column_mean[key] += preferred
+
+    for key, value in column_mean.items():
+        column_mean[key] /= len(candidates)
+
+    overall_mean = 15 / 6
+
+    effects = column_mean.copy()
+    for key in effects:
+        effects[key] -= overall_mean
+
+    print(effects)
+
+
+
+if __name__ == '__main__':
+    candidates = get_candidates()
+    create_basic_table(candidates)
+
 
 
 
