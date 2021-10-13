@@ -24,3 +24,17 @@ no arguments and will only print the mock data results to console
   * `-s | --seed` - Provides the seed to randomization and outputs
   deterministic results
   * If unknown options are provided the script will simply exit
+
+# Commands
+
+* Get number of people over and below 25:
+  ```
+  awk -F',' ' { if ($2 > 25)  over++; else under++; } END { print over/15;
+  print under/15; }' data/log.csv
+  ```
+
+* Get number of people over and below 25 and their driver licence status:
+  ```
+  ./bash_scripts/age_licence.sh
+  ```
+

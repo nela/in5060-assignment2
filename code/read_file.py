@@ -40,8 +40,6 @@ def read_candidates():
 
     return candidates
 
-for c in read_candidates():
-    print(c.gende
 # cands = read_candidates()
 #
 # ids = []
@@ -77,4 +75,3 @@ for c in read_candidates():
 #
 #
 #
-
