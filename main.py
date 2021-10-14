@@ -1,6 +1,8 @@
 from typing import List
 
 from messurment import Candidate
+from formulas import get_effects, get_sse
+
 
 def get_candidates():
     candidates = []
@@ -31,28 +33,19 @@ def get_candidates():
 
 
 def create_basic_table(candidates: List[Candidate]):
-    anova_dict = {}
-    column_mean = {"saopaulover-1min-s-yaw0": 0, "saopaulover-1min-s-yaw90": 0, "saopaulover-1min-t-yaw0": 0, "saopaulover-1min-t-yaw90": 0, "saopaulover-1min-yaw0": 0, "saopaulover-1min-yaw90": 0}
-    for candidate in candidates:
-        for key, preferred in candidate.get_selected_count().items():
-            column_mean[key] += preferred
-
-    for key, value in column_mean.items():
-        column_mean[key] /= len(candidates)
-
-    overall_mean = 15 / 6
-
-    effects = column_mean.copy()
-    for key in effects:
-        effects[key] -= overall_mean
-
+    effects = get_effects(candidates)
+    sse = get_sse(candidates)
     print(effects)
+    print(sse)
 
+
+def main():
+    candidates = get_candidates()
+    create_basic_table(candidates)
 
 
 if __name__ == '__main__':
-    candidates = get_candidates()
-    create_basic_table(candidates)
+    main()
 
 
 
