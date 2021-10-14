@@ -1,6 +1,11 @@
 from typing import List
 
 from messurment import Candidate
+from scipy.stats import f
+
+
+def get_k(candidates):
+    return len(candidates[0].get_selected_count())
 
 
 def get_column_mean(candidates: List[Candidate]):
@@ -20,7 +25,7 @@ def get_overall_mean(candidates: List[Candidate]):
         for value in candidate.get_selected_count().values():
             total_value += value
     n = len(candidates)
-    k = len(candidates[0].get_selected_count())
+    k = get_k(candidates)
     return total_value / (n * k)
 
 
@@ -55,3 +60,44 @@ def get_sse(candidates):
     ssa = get_ssa(candidates)
     sst = get_sst(candidates)
     return sst - ssa
+
+
+def mean_square_alternatives(candidates):
+    ssa = get_ssa(candidates)
+    k = get_k(candidates)
+    return ssa / (k - 1)
+
+
+def mean_square_error(candidates):
+    sse = get_sse(candidates)
+    k = get_k(candidates)
+    n = len(candidates)
+    return sse / (k * (n - 1))
+
+
+def get_degree_freedom_alternative(candidates):
+    return get_k(candidates) - 1
+
+
+def get_degree_freedom_error(candidates):
+    k = get_k(candidates)
+    n = len(candidates)
+    return k * (n - 1)
+
+
+def get_degree_freedom_total(candidates):
+    k = get_k(candidates)
+    n = len(candidates)
+    return (k * n) - 1
+
+
+def get_computed_f(candidates):
+    ms_alternative = mean_square_alternatives(candidates)
+    ms_error = mean_square_error(candidates)
+    return ms_alternative / ms_error
+
+
+def get_tabulated_f(candidates, confidence=0.9):
+    df_alternative = get_degree_freedom_alternative(candidates)
+    df_error = get_degree_freedom_error(candidates)
+    return f.ppf(confidence, df_alternative, df_error)
