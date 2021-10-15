@@ -15,7 +15,7 @@ class Candidate:
         self.selections = []
 
     def add_prefer_count(self, first_variant, second_variant, preferred):
-        if preferred == 1:
+        if preferred == '1':
             selected = second_variant
             contender = first_variant
         else:
