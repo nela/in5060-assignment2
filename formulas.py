@@ -8,12 +8,16 @@ def get_k(candidates):
     return len(candidates[0].get_selected_count())
 
 
-def get_column_mean(candidates: List[Candidate]):
-    column_means = {}
+def get_column_sums(candidates: List[Candidate]):
+    column_sums = {}
     for candidate in candidates:
         for key, preferred in candidate.get_selected_count().items():
-            column_means[key] = preferred + column_means.get(key, 0)
+            column_sums[key] = preferred + column_sums.get(key, 0)
+    return column_sums
 
+
+def get_column_mean(candidates: List[Candidate]):
+    column_means = get_column_sums(candidates)
     for key in column_means:
         column_means[key] /= len(candidates)
     return column_means

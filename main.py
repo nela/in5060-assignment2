@@ -2,6 +2,7 @@ from typing import List
 
 from messurment import Candidate
 from formulas import get_effects, get_sse
+from candidates_table import create_candidates_table
 
 
 def get_candidates():
@@ -41,7 +42,8 @@ def create_basic_table(candidates: List[Candidate]):
 
 def main():
     candidates = get_candidates()
-    create_basic_table(candidates)
+    #create_basic_table(candidates)
+    create_candidates_table(candidates)
 
 
 if __name__ == '__main__':
