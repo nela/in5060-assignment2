@@ -12,6 +12,10 @@ def create_extra_row(data, headers, name=""):
     return row
 
 
+def extract(candidate: Candidate):
+    return candidate.get_selected_count()
+
+
 def create_candidates_table(candidates: List[Candidate]):
     name = "candidates_table"
     headers = ["Candidate",
@@ -30,10 +34,10 @@ def create_candidates_table(candidates: List[Candidate]):
             row.append(choices[header])
         rows.append(row)
 
-    sums = get_column_sums(candidates)
+    sums = get_column_sums(candidates, extract)
     rows.append(create_extra_row(sums, headers, "Sum:"))
 
-    column_mean = get_column_mean(candidates)
+    column_mean = get_column_mean(candidates, extract)
     rows.append(create_extra_row(column_mean, headers, "Mean:"))
     write_to_file(name, rows)
 
