@@ -12,6 +12,10 @@ def create_extra_row(data, headers, name=""):
     return row
 
 
+def extract(candidate: Candidate):
+    return candidate.get_selected_count()
+
+
 def spilt_gender(candidates: List[Candidate]):
     males = filter(lambda candidate: candidate.gender == 'male', candidates)
     females = filter(lambda candidate: candidate.gender == 'female', candidates)
@@ -35,15 +39,15 @@ def create_gender_table(candidates: List[Candidate]):
     rows = [headers]
     males, females, others = spilt_gender(candidates)
 
-    sums = get_column_sums(males)
+    sums = get_column_sums(males, extract)
     sums = merge_qualities(sums, len(males))
     rows.append(create_extra_row(sums, headers, "Male"))
 
-    sums = get_column_sums(females)
+    sums = get_column_sums(females, extract)
     sums = merge_qualities(sums, len(females))
     rows.append(create_extra_row(sums, headers, "Female"))
 
-    sums = get_column_sums(others)
+    sums = get_column_sums(others, extract)
     sums = merge_qualities(sums, len(others))
     rows.append(create_extra_row(sums, headers, "Other"))
 
