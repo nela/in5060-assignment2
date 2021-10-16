@@ -1,7 +1,9 @@
 from messurment import Candidate
 from read_file import read_candidates
 
-from typing import List
+from typing import List, Dict
+
+import json
 
 
 def get_gendered(candidates):
@@ -17,7 +19,7 @@ def get_gendered(candidates):
     return males, females, other
 
 
-def get_hq_lq_count(candidates: List[Candidate]):
+def get_hqlq_count(candidates: List[Candidate]):
     hq_choice, lq_choice, side, back = 0, 0, 0, 0
     for c in candidates:
         for s in c.selections:
@@ -82,10 +84,42 @@ def get_age_and_license(candidates: List[Candidate]):
             "age_undefined" : age_undefined }
 
 
+def get_hqlq_cols(candidates_segmented: Dict[str, List[Candidate]]):
+    hqlq_cols: Dict[str, Dict[str, int]] = {}
+    for key, value in candidates_segmented.items():
+        hqlq_cols[key] = get_hqlq_count(value)
+
+    return hqlq_cols
+
 candidates: List[Candidate] = read_candidates()
 all_males, all_females, all_other = get_gendered(candidates)
+all_males_hqlq_cols = get_hqlq_count(all_males)
+all_females_hqlq_cols = get_hqlq_count(all_females)
+all_other_hqlq_cols = get_hqlq_count(all_other)
 
 males_segmented = get_age_and_license(all_males)
 females_segmented = get_age_and_license(all_females)
 other_segmented = get_age_and_license(all_other)
 
+males_segmented_hqlq_cols = get_hqlq_cols(males_segmented)
+females_segmented_hqlq_cols = get_hqlq_cols(females_segmented)
+other_segmented_hqlq_cols = get_hqlq_cols(other_segmented)
+
+# print(json.dumps(males_segmented_hqlq_cols, indent=2))
+# print(json.dumps(females_segmented_hqlq_cols, indent=2))
+# print(json.dumps(other_segmented_hqlq_cols, indent=2))
+
+def get_column_sums(*args):
+    hq, lq, side, back = 0, 0, 0, 0
+    for _segmented in args:
+        for value in _segmented.values():
+            hq += value["hq_choice"]
+            lq += value["lq_choice"]
+            side += value["side"]
+            back += value["back"]
+
+    return { "hq" : hq, "lq" : lq, "side" : side, "back" : back }
+
+
+column_sums = get_column_sums(males_segmented_hqlq_cols, females_segmented_hqlq_cols, other_segmented_hqlq_cols)
+print(column_sums)
