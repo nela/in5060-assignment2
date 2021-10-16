@@ -36,10 +36,25 @@ def get_candidates():
     return candidates
 
 
+"""
+Denne functionen henter ut alle alternativ for en rad som et dict
+Her bruker jeg bare get_selected_count men hva som helst kan bli passed
+"""
+def example_of_extraction_of_alternative(candidate: Candidate):
+    return candidate.get_selected_count()
+
+
+def example_of_formulas_implementation(candidates):
+    effect = get_effects(candidates, example_of_extraction_of_alternative)
+    print(effect)
+
+
 def main():
     candidates = get_candidates()
     #create_candidates_table(candidates)
-    create_gender_table(candidates)
+    example_of_formulas_implementation(candidates)
+    #create_gender_table(candidates)
+
 
 if __name__ == '__main__':
     main()
