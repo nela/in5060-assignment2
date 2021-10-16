@@ -31,10 +31,10 @@ def create_candidates_table(candidates: List[Candidate]):
         rows.append(row)
 
     sums = get_column_sums(candidates)
-    rows.append(create_extra_row(sums, headers))
+    rows.append(create_extra_row(sums, headers, "Sum:"))
 
     column_mean = get_column_mean(candidates)
-    rows.append(create_extra_row(column_mean, headers))
+    rows.append(create_extra_row(column_mean, headers, "Mean:"))
     write_to_file(name, rows)
 
 

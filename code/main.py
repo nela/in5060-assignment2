@@ -3,6 +3,7 @@ from typing import List
 from messurment import Candidate
 from formulas import get_effects, get_sse
 from candidates_table import create_candidates_table
+from gender_table import create_gender_table
 
 
 def get_candidates():
@@ -10,7 +11,7 @@ def get_candidates():
     with open("data/log.csv", "r") as inputFile:
         lines = inputFile.readlines()
         current_candidate = None
-        for line in lines[1:]:
+        for index, line in enumerate(lines[1:]):
             elements = line.split(',')
             elements_length = len(elements)
             id = elements[elements_length - 5]
@@ -20,6 +21,8 @@ def get_candidates():
             user_agent_simple = elements[4]
             if elements_length == 13:
                 user_agent_full = elements[5] + "," + elements[6]
+            elif elements_length == 14:
+                user_agent_full = elements[5] + "," + elements[6] + "," + elements[7]
             else:
                 user_agent_full = elements[5]
             proficiency = elements[elements_length - 6]
@@ -33,18 +36,10 @@ def get_candidates():
     return candidates
 
 
-def create_basic_table(candidates: List[Candidate]):
-    effects = get_effects(candidates)
-    sse = get_sse(candidates)
-    print(effects)
-    print(sse)
-
-
 def main():
     candidates = get_candidates()
-    #create_basic_table(candidates)
-    create_candidates_table(candidates)
-
+    #create_candidates_table(candidates)
+    create_gender_table(candidates)
 
 if __name__ == '__main__':
     main()
