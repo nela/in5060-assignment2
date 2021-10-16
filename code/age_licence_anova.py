@@ -3,8 +3,6 @@ from read_file import read_candidates
 
 from typing import List
 
-candidates: List[Candidate] = read_candidates()
-
 
 def get_gendered(candidates):
     males, females, other = [], [], []
@@ -53,10 +51,10 @@ def get_hq_lq_count(candidates: List[Candidate]):
 def get_age_and_license(candidates: List[Candidate]):
     under25_license: List[Candidate] = []
     under25_nolicense: List[Candidate] = []
-    under25_undefined: List[Candidate] = []
+    under25_license_undefined: List[Candidate] = []
     over25_license: List[Candidate] = []
     over25_nolicense: List[Candidate] = []
-    over25_undefined: List[Candidate] = []
+    over25_license_undefined: List[Candidate] = []
     age_undefined: List[Candidate] = []
 
     for c in candidates:
@@ -65,20 +63,29 @@ def get_age_and_license(candidates: List[Candidate]):
         elif int(c.age) <= 25 and c.has_license == "no":
             under25_nolicense.append(c)
         elif int(c.age) <= 25:
-            under25_undefined.append(c)
+            under25_license_undefined.append(c)
         elif int(c.age) > 25 and c.has_license == "yes":
             over25_license.append(c)
         elif int(c.age) > 25 and c.has_license == "no":
             over25_nolicense.append(c)
         elif int(c.age) > 25:
-            over25_undefined.append(c)
+            over25_license_undefined.append(c)
         else:
             age_undefined.append(c)
 
     return { "under25_license" : under25_license,
             "under25_nolicense" : under25_nolicense,
-            "under25_undefined" : under25_undefined,
+            "under25_license_undefined" : under25_license_undefined,
             "over25_license" : over25_license,
             "over25_nolicense" : over25_nolicense,
-            "over25_undefined" : over25_undefined,
+            "over25_license_undefined" : over25_license_undefined,
             "age_undefined" : age_undefined }
+
+
+candidates: List[Candidate] = read_candidates()
+all_males, all_females, all_other = get_gendered(candidates)
+
+males_segmented = get_age_and_license(all_males)
+females_segmented = get_age_and_license(all_females)
+other_segmented = get_age_and_license(all_other)
+
