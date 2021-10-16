@@ -13,7 +13,7 @@ def get_candidates():
         for line in lines[1:]:
             elements = line.split(',')
             elements_length = len(elements)
-            id = elements[8]
+            id = elements[elements_length - 5]
             gender = elements[2]
             age = elements[1]
             license = elements[3]

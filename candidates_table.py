@@ -4,8 +4,9 @@ from messurment import Candidate
 from formulas import get_column_sums, get_column_mean
 from writer import write_to_file
 
-def create_extra_row(data, headers):
-    row = [""]
+
+def create_extra_row(data, headers, name=""):
+    row = [name]
     for header in headers[1:]:
         row.append(data[header])
     return row
