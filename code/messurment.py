@@ -29,7 +29,6 @@ class Candidate:
                                 "contender": contender
                                 })
 
-
     def get_selected_count(self):
         selected_dict = {"saopaulover-1min-s-yaw0": 0, "saopaulover-1min-s-yaw90": 0, "saopaulover-1min-t-yaw0": 0,
                          "saopaulover-1min-t-yaw90": 0, "saopaulover-1min-yaw0": 0, "saopaulover-1min-yaw90": 0}
@@ -37,4 +36,3 @@ class Candidate:
             selected_dict[selection["selected"]] += 1
 
         return selected_dict
-
