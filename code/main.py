@@ -52,10 +52,10 @@ def example_of_formulas_implementation(candidates):
 
 def main():
     candidates = get_candidates()
-    create_example_table(candidates, True)
+    #create_example_table(candidates, True)
     #create_candidates_table(candidates)
     #example_of_formulas_implementation(candidates)
-    #create_gender_table(candidates)
+    create_gender_table(candidates)
 
 
 if __name__ == '__main__':
