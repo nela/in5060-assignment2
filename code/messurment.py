@@ -36,3 +36,19 @@ class Candidate:
             selected_dict[selection["selected"]] += 1
 
         return selected_dict
+
+    def get_selected_quality_count(self, include_same_match=True):
+        starting_point = -1
+        if include_same_match:
+            starting_point = 0
+        selected_dict = {"Terrible": starting_point, "Middle": starting_point, "Great": starting_point}
+        for selection in self.selections:
+            selected = selection["selected"]
+            if selected == "saopaulover-1min-t-yaw90" or selected == "saopaulover-1min-t-yaw0":
+                selected_dict["Terrible"] += 1
+            elif selected == "saopaulover-1min-s-yaw90" or selected == "saopaulover-1min-s-yaw0":
+                selected_dict["Middle"] += 1
+            else:
+                selected_dict["Great"] += 1
+
+        return selected_dict

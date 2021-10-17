@@ -6,17 +6,26 @@ from formulas import get_ssa, get_sse, get_sst, get_degree_freedom_alternative, 
 from writer import write_to_file
 
 
-def extract(candidate: Candidate):
+def extract_all(candidate: Candidate):
     return candidate.get_selected_count()
 
 
-def create_example_table(candidates: List[Candidate]):
-    name = "example_table"
+def extract_quality(candidate: Candidate):
+    return candidate.get_selected_quality_count()
+
+def create_example_table(candidates: List[Candidate], is_quality=False):
+    name = "example_table_quality"
     headers = ["Variation",
                "Alternatives",
                "Error",
                "Total"]
     rows = [headers]
+
+    if is_quality:
+        extract = extract_quality
+    else:
+        extract = extract_all
+
     ssa = get_ssa(candidates, extract)
     sse = get_sse(candidates, extract)
     sst = get_sst(candidates, extract)
