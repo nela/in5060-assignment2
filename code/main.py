@@ -4,6 +4,7 @@ from messurment import Candidate
 from formulas import get_effects, get_sse
 from candidates_table import create_candidates_table
 from gender_table import create_gender_table
+from example_table import create_example_table
 
 
 def get_candidates():
@@ -40,19 +41,20 @@ def get_candidates():
 Denne functionen henter ut alle alternativ for en rad som et dict
 Her bruker jeg bare get_selected_count men hva som helst kan bli passed
 """
-def example_of_extraction_of_alternative(candidate: Candidate):
+def example_of_extraction_of_alternatives(candidate: Candidate):
     return candidate.get_selected_count()
 
 
 def example_of_formulas_implementation(candidates):
-    effect = get_effects(candidates, example_of_extraction_of_alternative)
+    effect = get_effects(candidates, example_of_extraction_of_alternatives)
     print(effect)
 
 
 def main():
     candidates = get_candidates()
+    create_example_table(candidates)
     #create_candidates_table(candidates)
-    example_of_formulas_implementation(candidates)
+    #example_of_formulas_implementation(candidates)
     #create_gender_table(candidates)
 
 
