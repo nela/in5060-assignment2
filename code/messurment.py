@@ -37,7 +37,7 @@ class Candidate:
 
         return selected_dict
 
-    def get_selected_quality_count(self, include_same_match=True):
+    def get_selected_quality_count(self, include_same_match=True, is_percent=False):
         starting_point = -1
         if include_same_match:
             starting_point = 0
@@ -50,5 +50,18 @@ class Candidate:
                 selected_dict["Middle"] += 1
             else:
                 selected_dict["Great"] += 1
+
+        if is_percent:
+            selected_dict = self.turn_into_percent(selected_dict)
+
+        return selected_dict
+
+    @staticmethod
+    def turn_into_percent(selected_dict: dict):
+        total_value = 0
+        for value in selected_dict.values():
+            total_value += value
+        for key in selected_dict:
+            selected_dict[key] /= total_value
 
         return selected_dict
