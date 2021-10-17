@@ -13,7 +13,7 @@ def create_extra_row(data, headers, name=""):
 
 
 def extract(candidate: Candidate):
-    return candidate.get_selected_quality_count(False, True)
+    return candidate.get_selected_quality_count(include_same_match=False, is_percent=True)
 
 
 def spilt_gender(candidates: List[Candidate]):
@@ -21,6 +21,9 @@ def spilt_gender(candidates: List[Candidate]):
     females = list(filter(lambda candidate: candidate.gender == 'female', candidates))
     others = list(filter(lambda candidate: candidate.gender == 'other', candidates))
     return males, females, others
+
+def test(dic):
+    return dic
 
 
 def create_gender_table(candidates: List[Candidate]):
@@ -38,6 +41,7 @@ def create_gender_table(candidates: List[Candidate]):
     rows.append(create_extra_row(sums, headers, "Female"))
     sums = get_column_mean(others, extract)
     rows.append(create_extra_row(sums, headers, "Other"))
+
 
     write_to_file(name, rows)
 

@@ -6,7 +6,7 @@ class Candidate:
         self.gender = gender
         self.has_license = has_license
         self.proficiency = proficiency
-        self.age = age
+        self.age = int(age)
         self.user_agent_simple = user_agent_simple
         self.user_agent_full = user_agent_full
         self.labels = ["saopaulover-1min-s-yaw0", "saopaulover-1min-s-yaw90", "saopaulover-1min-t-yaw0",
@@ -54,6 +54,23 @@ class Candidate:
         if is_percent:
             selected_dict = self.turn_into_percent(selected_dict)
 
+        return selected_dict
+
+    def get_hq_lq(self):
+        selected_dict = {"HQ": 0, "LQ": 0}
+        for selection in self.selections:
+            selected = selection["selected"]
+            contender = selection["contender"]
+            quality_s = selected[17]
+            quality_c = contender[17]
+            if quality_c == quality_s:
+                continue
+            if quality_s == 'y':
+                selected_dict["HQ"] += 1
+            elif quality_s == 's' and quality_c == 't':
+                selected_dict["HQ"] += 1
+            else:
+                selected_dict["LQ"] += 1
         return selected_dict
 
     @staticmethod

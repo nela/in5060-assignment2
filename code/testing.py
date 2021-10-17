@@ -14,19 +14,17 @@ def extract_quality(candidate: Candidate):
     return candidate.get_selected_quality_count()
 
 
-def create_example_table(candidates: List[Candidate], is_quality=False):
-    name = "example_table_quality"
-    headers = ["Variation",
-               "Alternatives",
-               "Error",
-               "Total"]
-    rows = [headers]
+def extract_hq_lq(candidate: Candidate):
+    return candidate.get_hq_lq()
 
-    if is_quality:
-        extract = extract_quality
-    else:
-        extract = extract_all
 
+def filter_age(candidates: List[Candidate], age=25):
+    under = list(filter(lambda c: c.age <= age, candidates))
+    over = list(filter(lambda c: c.age <= age, candidates))
+    return under, over
+
+
+def create_valuations(candidates: List[Candidate], rows, extract):
     ssa = get_ssa(candidates, extract)
     sse = get_sse(candidates, extract)
     sst = get_sst(candidates, extract)
@@ -45,6 +43,23 @@ def create_example_table(candidates: List[Candidate], is_quality=False):
     rows.append(["Tabulated F 90", get_tabulated_f(candidates, extract)])
     rows.append(["Tabulated F 95", get_tabulated_f(candidates, extract, 0.95)])
     rows.append(["Tabulated F 99", get_tabulated_f(candidates, extract, 0.99)])
+
+
+def create_test_table(candidates: List[Candidate]):
+    name = "cool_table"
+    headers = ["Variation",
+               "Alternative",
+               "Error",
+               "Total"]
+    rows = [headers]
+
+    extract = extract_hq_lq
+    under, over = filter_age(candidates)
+
+    rows.append("Under 25")
+    create_valuations(under, rows, extract_hq_lq)
+    rows.append("Over 25")
+    create_valuations(over, rows, extract_hq_lq)
 
     write_to_file(name, rows)
 

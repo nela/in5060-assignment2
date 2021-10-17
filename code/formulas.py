@@ -1,6 +1,5 @@
 from typing import List
 
-from messurment import Candidate
 from scipy.stats import f
 
 
@@ -8,7 +7,7 @@ def get_k(candidates, alternative_func):
     return len(alternative_func(candidates[0]))
 
 
-def get_column_sums(candidates: List[Candidate], alternative_func):
+def get_column_sums(candidates, alternative_func):
     column_sums = {}
     for candidate in candidates:
         for key, preferred in alternative_func(candidate).items():
@@ -16,14 +15,14 @@ def get_column_sums(candidates: List[Candidate], alternative_func):
     return column_sums
 
 
-def get_column_mean(candidates: List[Candidate], alternative_func):
+def get_column_mean(candidates, alternative_func):
     column_means = get_column_sums(candidates, alternative_func)
     for key in column_means:
         column_means[key] /= len(candidates)
     return column_means
 
 
-def get_overall_mean(candidates: List[Candidate], alternative_func):
+def get_overall_mean(candidates, alternative_func):
     total_value = 0
     for candidate in candidates:
         for value in alternative_func(candidate).values():

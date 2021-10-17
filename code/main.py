@@ -5,6 +5,7 @@ from formulas import get_effects, get_sse
 from candidates_table import create_candidates_table
 from gender_table import create_gender_table
 from example_table import create_example_table
+from testing import create_test_table
 
 
 def get_candidates():
@@ -52,10 +53,11 @@ def example_of_formulas_implementation(candidates):
 
 def main():
     candidates = get_candidates()
+    create_test_table(candidates)
     #create_example_table(candidates, True)
     #create_candidates_table(candidates)
     #example_of_formulas_implementation(candidates)
-    create_gender_table(candidates)
+    #create_gender_table(candidates)
 
 
 if __name__ == '__main__':
