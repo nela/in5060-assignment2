@@ -20,7 +20,7 @@ def extract_hq_lq(candidate: Candidate):
 
 def filter_age(candidates: List[Candidate], age=25):
     under = list(filter(lambda c: c.age <= age, candidates))
-    over = list(filter(lambda c: c.age <= age, candidates))
+    over = list(filter(lambda c: c.age > age, candidates))
     return under, over
 
 
@@ -46,20 +46,36 @@ def create_valuations(candidates: List[Candidate], rows, extract):
 
 
 def create_test_table(candidates: List[Candidate]):
-    name = "cool_table"
+    name = "age_quality_table"
+    """
     headers = ["Variation",
                "Alternative",
                "Error",
                "Total"]
+    """
+    headers = ["Particepant", "Terrible", "Middle", "Great"]
     rows = [headers]
 
-    extract = extract_hq_lq
+    extract = extract_quality
     under, over = filter_age(candidates)
 
-    rows.append("Under 25")
-    create_valuations(under, rows, extract_hq_lq)
-    rows.append("Over 25")
-    create_valuations(over, rows, extract_hq_lq)
+    rows.append(["Under 25"])
+    for index, candidate in enumerate(under):
+        row = [index + 1]
+        choices = candidate.get_selected_quality_count()
+        for header in headers[1:]:
+            row.append(choices[header])
+        rows.append(row)
+
+    #create_valuations(under, rows, extract_hq_lq)
+    rows.append(["Over 25"])
+    for index, candidate in enumerate(over):
+        row = [index + 1]
+        choices = candidate.get_selected_quality_count()
+        for header in headers[1:]:
+            row.append(choices[header])
+        rows.append(row)
+    #create_valuations(over, rows, extract_hq_lq)
 
     write_to_file(name, rows)
 
